@@ -4,7 +4,7 @@ FROM ghcr.io/puppeteer/puppeteer:23.11.1
 # Chuyển sang user root để cài đặt các thư viện
 USER root
 
-# Cập nhật và cài đặt các thư viện cần thiết cho Puppeteer
+# Cập nhật và cài đặt các thư viện cần thiết
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
@@ -41,15 +41,15 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     lsb-release \
     wget \
-    xdg-utils \
-    && rm -rf /var/lib/apt/lists/*  
+    xdg-utils 
 
 # Thêm kho lưu trữ Google Chrome vào apt (nếu bạn cần cài Google Chrome thay vì sử dụng Puppeteer mặc định)
-# RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc
-# RUN echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-# RUN apt-get update && apt-get install -y google-chrome-stable
+RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc
+RUN echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+# Cập nhật lại apt và cài đặt google-chrome-stable
+RUN apt-get update && apt-get install -y google-chrome-stable
 
-# Cấu hình Puppeteer không tải Chromium và chỉ định đường dẫn đến Google Chrome nếu cần
+# Cấu hình cho Puppeteer không tải Chromium và chỉ định đường dẫn đến Google Chrome
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
