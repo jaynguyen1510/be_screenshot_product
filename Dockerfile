@@ -1,11 +1,11 @@
-# Chạy Puppeteer trên Docker với image chính thức của Puppeteer
+# Sử dụng image chính thức của Puppeteer
 FROM ghcr.io/puppeteer/puppeteer:23.11.1
 
 # Cấu hình cho Puppeteer không tải Chromium và chỉ định đường dẫn đến Google Chrome
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
-# Cài đặt các phần mềm phụ thuộc cần thiết cho Chrome (cài đặt trên Ubuntu)
+# Cài đặt các phần mềm phụ thuộc cần thiết cho Chrome
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 
 # Sao chép package.json và cài đặt các phụ thuộc
-COPY package*.json ./
+COPY package*.json ./ 
 RUN npm ci
 
 # Sao chép tất cả các tệp khác vào container

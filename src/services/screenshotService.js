@@ -3,6 +3,10 @@ import puppeteer from "puppeteer";
 export const takeScreenshotsCellPhoneS = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH // Sử dụng đường dẫn đến Chrome trong Docker
+        : puppeteer.executablePath(), // Sử dụng đường dẫn mặc định của Puppeteer
     args: [
       "--no-sandbox", // Bắt buộc trên Render để tránh lỗi sandbox
       "--disable-setuid-sandbox",
@@ -10,6 +14,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
       "--disable-gpu", // Không cần GPU trên máy chủ
     ],
   });
+
   const page = await browser.newPage();
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
