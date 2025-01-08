@@ -1,15 +1,26 @@
-services:
-  - type: web
-    name: screenshot-service
-    env: node
-    plan: free
-    region: oregon
-    buildCommand: |
-      npm install
-      npx puppeteer browsers install chrome
-    startCommand: "npm start"
-    envVars:
-      - key: PUPPETEER_CACHE_DIR
-        value: "/opt/render/.cache/puppeteer"
-      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
-        value: "false" # Để Puppeteer tải Chromium nếu cần
+build:
+  commands:
+    - apt-get update
+    - apt-get install -y \
+        ca-certificates \
+        fonts-liberation \
+        libappindicator3-1 \
+        libasound2 \
+        libatk-bridge2.0-0 \
+        libatk1.0-0 \
+        libcups2 \
+        libdbus-1-3 \
+        libnss3 \
+        libx11-xcb1 \
+        libxcomposite1 \
+        libxcursor1 \
+        libxdamage1 \
+        libxi6 \
+        libxrandr2 \
+        wget \
+        libgbm-dev \
+        libgtk-3-0 \
+        libxshmfence1
+    - npm install
+start:
+  command: npm start
