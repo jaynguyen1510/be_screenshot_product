@@ -61,6 +61,9 @@ WORKDIR /usr/src/app
 # Sao chép package.json và cài đặt các phụ thuộc
 COPY package*.json ./
 RUN npm ci
+USER root
+RUN npm install -g nodemon
+USER pptruser
 
 # Chuyển lại sang user pptruser sau khi cài đặt
 USER pptruser
