@@ -3,6 +3,7 @@ import puppeteer from "puppeteer";
 export const takeScreenshotsCellPhoneS = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: puppeteer.executablePath(), // Tự động phát hiện đường dẫn
     args: [
       "--no-sandbox", // Bắt buộc trên Render để tránh lỗi sandbox
       "--disable-setuid-sandbox",
