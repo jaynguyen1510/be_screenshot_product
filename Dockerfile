@@ -4,7 +4,7 @@ FROM ghcr.io/puppeteer/puppeteer:23.11.1
 # Chuyển sang user root để cài đặt các thư viện
 USER root
 
-# Cập nhật và cài đặt các thư viện cần thiết
+# Cập nhật và cài đặt các thư viện cần thiết cho Puppeteer
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-liberation \
@@ -41,11 +41,13 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     lsb-release \
     wget \
-    xdg-utils 
+    xdg-utils
 
-# Thêm kho lưu trữ Google Chrome vào apt (nếu bạn cần cài Google Chrome thay vì sử dụng Puppeteer mặc định)
+# Thêm kho lưu trữ Google Chrome vào apt
 RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc
+
 RUN echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+
 # Cập nhật lại apt và cài đặt google-chrome-stable
 RUN apt-get update && apt-get install -y google-chrome-stable
 
@@ -58,14 +60,12 @@ WORKDIR /usr/src/app
 
 # Sao chép package.json và cài đặt các phụ thuộc
 COPY package*.json ./
-
-# Chạy npm ci thay vì npm install để tối ưu tốc độ và đảm bảo cài đặt chính xác phiên bản
-RUN npm ci --production
-
-# Cài đặt nodemon toàn cục cho môi trường phát triển
+RUN npm ci
+USER root
 RUN npm install -g nodemon
+USER pptruser
 
-# Chuyển sang user pptruser sau khi cài đặt
+# Chuyển lại sang user pptruser sau khi cài đặt
 USER pptruser
 
 # Sao chép tất cả các tệp khác vào container
