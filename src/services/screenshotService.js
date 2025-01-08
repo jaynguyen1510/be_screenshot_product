@@ -1,18 +1,13 @@
-import { getPuppeteerConfig } from "../puppeteerConfig.js"; // Cập nhật đường dẫn file cấu hình
-import puppeteer from "puppeteer-core"; // Import puppeteer-core thay vì puppeteer
+import puppeteer from "puppeteer";
 
 export const takeScreenshotsCellPhoneS = async (url) => {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath:
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // Cung cấp đường dẫn chính xác tới trình duyệt Chrome hoặc Chromium
     args: [
-      "--no-sandbox",
+      "--no-sandbox", // Bắt buộc trên Render để tránh lỗi sandbox
       "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--headless",
-      "--disable-gpu",
-      "--window-size=1280x720",
+      "--disable-dev-shm-usage", // Giảm yêu cầu bộ nhớ trên hệ thống
+      "--disable-gpu", // Không cần GPU trên máy chủ
     ],
   });
   const page = await browser.newPage();
@@ -140,19 +135,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
 };
 
 export const takeScreenshotsDiDongViet = async (url) => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    executablePath:
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // Cung cấp đường dẫn chính xác tới trình duyệt Chrome hoặc Chromium
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-      "--headless",
-      "--disable-gpu",
-      "--window-size=1280x720",
-    ],
-  });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
