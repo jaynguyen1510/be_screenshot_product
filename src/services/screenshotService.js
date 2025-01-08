@@ -1,7 +1,8 @@
-import puppeteer from "puppeteer";
+import { getPuppeteerConfig } from "../puppeteerConfig.js"; // Cập nhật đường dẫn file cấu hình
+import puppeteer from "puppeteer-core"; // Import puppeteer-core thay vì puppeteer
 
 export const takeScreenshotsCellPhoneS = async (url) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch(getPuppeteerConfig());
   const page = await browser.newPage();
 
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -127,7 +128,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
 };
 
 export const takeScreenshotsDiDongViet = async (url) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch(getPuppeteerConfig());
   const page = await browser.newPage();
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
