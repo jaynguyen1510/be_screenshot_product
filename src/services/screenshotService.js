@@ -22,7 +22,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
 
   try {
     await page.setViewport({ width: 1280, height: 720 });
-    await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 50000 });
 
     const clickLoadMoreLinks = async () => {
       while (true) {
@@ -159,7 +159,7 @@ export const takeScreenshotsDiDongViet = async (url) => {
   const allScreenshots = [];
   try {
     await page.setViewport({ width: 1280, height: 720 });
-    await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 50000 });
 
     // Function to click "Load More" button until no more buttons
     const clickLoadMoreLinks = async () => {
