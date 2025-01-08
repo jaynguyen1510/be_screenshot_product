@@ -16,6 +16,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "puppeteer": "^23.11.1",
+    "puppeteer-core": "^23.11.1",
     "sharp": "^0.33.5"
   }
 }
