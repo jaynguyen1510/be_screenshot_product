@@ -10,6 +10,11 @@ WORKDIR /usr/src/app
 # Sao chép package.json và cài đặt các phụ thuộc
 COPY package*.json ./
 RUN npm ci
+USER root
+RUN npm install -g nodemon
+USER pptruser
+
+
 
 # Sao chép tất cả các tệp khác vào container
 COPY . .
