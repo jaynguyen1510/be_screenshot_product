@@ -13,6 +13,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
       "--disable-dev-shm-usage", // Giảm yêu cầu bộ nhớ trên hệ thống
       "--disable-gpu", // Không cần GPU trên máy chủ
     ],
+    protocolTimeout: 60000, // Tăng thời gian timeout
   });
 
   const page = await browser.newPage();
@@ -22,7 +23,7 @@ export const takeScreenshotsCellPhoneS = async (url) => {
 
   try {
     await page.setViewport({ width: 1280, height: 720 });
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 50000 });
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
 
     const clickLoadMoreLinks = async () => {
       while (true) {
@@ -152,6 +153,7 @@ export const takeScreenshotsDiDongViet = async (url) => {
       "--disable-dev-shm-usage", // Giảm yêu cầu bộ nhớ trên hệ thống
       "--disable-gpu", // Không cần GPU trên máy chủ
     ],
+    protocolTimeout: 60000, // Tăng thời gian timeout
   });
   const page = await browser.newPage();
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -159,7 +161,7 @@ export const takeScreenshotsDiDongViet = async (url) => {
   const allScreenshots = [];
   try {
     await page.setViewport({ width: 1280, height: 720 });
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 50000 });
+    await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
 
     // Function to click "Load More" button until no more buttons
     const clickLoadMoreLinks = async () => {

@@ -41,17 +41,15 @@ RUN apt-get update && apt-get install -y \
     libxtst6 \
     lsb-release \
     wget \
-    xdg-utils
+    xdg-utils \
+    && rm -rf /var/lib/apt/lists/*  
 
-# Thêm kho lưu trữ Google Chrome vào apt
-RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc
+# Thêm kho lưu trữ Google Chrome vào apt (nếu bạn cần cài Google Chrome thay vì sử dụng Puppeteer mặc định)
+# RUN curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc
+# RUN echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+# RUN apt-get update && apt-get install -y google-chrome-stable
 
-RUN echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-
-# Cập nhật lại apt và cài đặt google-chrome-stable
-RUN apt-get update && apt-get install -y google-chrome-stable
-
-# Cấu hình cho Puppeteer không tải Chromium và chỉ định đường dẫn đến Google Chrome
+# Cấu hình Puppeteer không tải Chromium và chỉ định đường dẫn đến Google Chrome nếu cần
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
@@ -60,12 +58,14 @@ WORKDIR /usr/src/app
 
 # Sao chép package.json và cài đặt các phụ thuộc
 COPY package*.json ./
-RUN npm ci
-USER root
-RUN npm install -g nodemon
-USER pptruser
 
-# Chuyển lại sang user pptruser sau khi cài đặt
+# Chạy npm ci thay vì npm install để tối ưu tốc độ và đảm bảo cài đặt chính xác phiên bản
+RUN npm ci --production
+
+# Cài đặt nodemon toàn cục cho môi trường phát triển
+RUN npm install -g nodemon
+
+# Chuyển sang user pptruser sau khi cài đặt
 USER pptruser
 
 # Sao chép tất cả các tệp khác vào container
