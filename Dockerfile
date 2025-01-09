@@ -61,12 +61,12 @@ WORKDIR /usr/src/app
 # Sao chép package.json và cài đặt các phụ thuộc
 COPY package*.json ./
 RUN npm ci
-
-# Cài đặt puppeteer-core thay vì puppeteer
-RUN npm install puppeteer-core
-
-# Cài đặt nodemon cho môi trường phát triển
+USER root
 RUN npm install -g nodemon
+USER pptruser
+
+# Chuyển lại sang user pptruser sau khi cài đặt
+USER pptruser
 
 # Sao chép tất cả các tệp khác vào container
 COPY . .

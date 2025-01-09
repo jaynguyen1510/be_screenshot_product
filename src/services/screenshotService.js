@@ -1,11 +1,12 @@
-import puppeteerCore from "puppeteer-core";
+import puppeteer from "puppeteer";
 
 export const takeScreenshotsCellPhoneS = async (url) => {
-  const browser = await puppeteerCore.launch({
+  const browser = await puppeteer.launch({
     headless: true,
     executablePath:
-      process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
-
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH // Sử dụng đường dẫn đến Chrome trong Docker
+        : puppeteer.executablePath(), // Sử dụng đường dẫn mặc định của Puppeteer
     args: [
       "--no-sandbox", // Bắt buộc trên Render để tránh lỗi sandbox
       "--disable-setuid-sandbox",
@@ -140,10 +141,12 @@ export const takeScreenshotsCellPhoneS = async (url) => {
 };
 
 export const takeScreenshotsDiDongViet = async (url) => {
-  const browser = await puppeteerCore.launch({
+  const browser = await puppeteer.launch({
     headless: true,
     executablePath:
-      process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH // Sử dụng đường dẫn đến Chrome trong Docker
+        : puppeteer.executablePath(), // Sử dụng đường dẫn mặc định của Puppeteer
     args: [
       "--no-sandbox", // Bắt buộc trên Render để tránh lỗi sandbox
       "--disable-setuid-sandbox",
